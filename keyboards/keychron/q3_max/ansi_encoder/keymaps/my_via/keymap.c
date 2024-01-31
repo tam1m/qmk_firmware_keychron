@@ -118,3 +118,50 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_scan_user(void) { }
 
 void matrix_init_user(void) { }
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+
+
+    if (get_highest_layer(layer_state) > 0) {
+        uint8_t layer = get_highest_layer(layer_state);
+        // rgb_matrix_set_color_all(0,0,0); // rest of keys
+
+
+        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+                uint8_t index = g_led_config.matrix_co[row][col];
+
+                if (index >= led_min && index < led_max && index != NO_LED &&
+                keymap_key_to_keycode(layer, (keypos_t){col,row}) > KC_TRNS) {
+
+                    switch(get_highest_layer(layer_state|default_layer_state)) {
+                        case 2:
+
+                            if (index == 68)
+                                rgb_matrix_set_color(index, RGB_GREEN);
+                            else if (index == 0)
+                                rgb_matrix_set_color(index, RGB_RED);
+                            else if (index == 69)
+                                rgb_matrix_set_color(index, RGB_YELLOW);
+                            else
+                                rgb_matrix_set_color(index, RGB_PURPLE);
+
+                            break;
+                        case 1:
+                            if (index == 68)
+                                rgb_matrix_set_color(index, RGB_GREEN);
+                            else
+                                rgb_matrix_set_color(index, RGB_SPRINGGREEN);
+                            break;
+                        default:
+                            //  rgb_matrix_set_color(index, RGB_ORANGE);
+                            break;
+                    }
+
+                    // Set the color using rgb_matrix_set_color
+
+                }
+            }
+        }
+    }
+    return false;
+}
