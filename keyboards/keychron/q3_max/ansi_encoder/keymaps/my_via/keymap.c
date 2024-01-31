@@ -120,12 +120,12 @@ void matrix_scan_user(void) { }
 void matrix_init_user(void) { }
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
+    __uint8_t current_hsv_v = rgb_matrix_get_val();
+    HSV hsvcolor = {HSV_OFF};
+    RGB rgbcolor = {RGB_OFF};
 
     if (get_highest_layer(layer_state) > 0) {
         uint8_t layer = get_highest_layer(layer_state);
-        // rgb_matrix_set_color_all(0,0,0); // rest of keys
-
-
         for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
             for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
                 uint8_t index = g_led_config.matrix_co[row][col];
@@ -135,30 +135,29 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
                     switch(get_highest_layer(layer_state|default_layer_state)) {
                         case 2:
-
                             if (index == 68)
-                                rgb_matrix_set_color(index, RGB_GREEN);
+                                hsvcolor = (HSV){HSV_GREEN};
                             else if (index == 0)
-                                rgb_matrix_set_color(index, RGB_RED);
+                                hsvcolor = (HSV){HSV_RED};
                             else if (index == 69)
-                                rgb_matrix_set_color(index, RGB_YELLOW);
+                                hsvcolor = (HSV){HSV_YELLOW};
                             else
-                                rgb_matrix_set_color(index, RGB_PURPLE);
+                                hsvcolor = (HSV){HSV_PURPLE};
 
                             break;
                         case 1:
                             if (index == 68)
-                                rgb_matrix_set_color(index, RGB_GREEN);
+                                hsvcolor = (HSV){HSV_GREEN};
                             else
-                                rgb_matrix_set_color(index, RGB_SPRINGGREEN);
+                                hsvcolor = (HSV){HSV_SPRINGGREEN};
                             break;
                         default:
-                            //  rgb_matrix_set_color(index, RGB_ORANGE);
+                            //  hsvcolor = (HSV){HSV_OFF};
                             break;
                     }
-
-                    // Set the color using rgb_matrix_set_color
-
+                    hsvcolor.v = current_hsv_v;
+                    rgbcolor = hsv_to_rgb(hsvcolor);
+                    rgb_matrix_set_color(index, rgbcolor.r, rgbcolor.g, rgbcolor.b);
                 }
             }
         }
