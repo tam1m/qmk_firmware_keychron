@@ -78,7 +78,7 @@
 #endif
 
 /* Factory test keys */
-#define FN_KEY_1 MO(1)
+#define FN_KEY_1 KC_ESC
 #define FN_KEY_2 MO(3)
 
 #define MATRIX_IO_DELAY 10
