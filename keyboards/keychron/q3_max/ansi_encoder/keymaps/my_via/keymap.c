@@ -29,7 +29,7 @@ enum my_keycodes {
    MY_PW
 };
 
-# define XXXXXXX KC_NO
+#define XXXXXXX KC_NO
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -80,37 +80,36 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 };
 #endif // ENCODER_MAP_ENABLE
 
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_record_keychron_common(keycode, record)) {
         return false;
     }
 
     switch (keycode) {
-    case MY_SYSRQ:
-        if (record->event.pressed) {
-            // Hold SysReq
-            SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_PSCR));
+        case MY_SYSRQ:
+            if (record->event.pressed) {
+                // Hold SysReq
+                SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_PSCR));
 
-            // Type reisub
-            SEND_STRING("r" SS_DELAY(500));
-            SEND_STRING("e" SS_DELAY(2000));
-            SEND_STRING("i" SS_DELAY(500));
-            SEND_STRING("s" SS_DELAY(5000));
-            SEND_STRING("u" SS_DELAY(2000));
-            SEND_STRING("b");
+                // Type reisub
+                SEND_STRING("r" SS_DELAY(500));
+                SEND_STRING("e" SS_DELAY(2000));
+                SEND_STRING("i" SS_DELAY(500));
+                SEND_STRING("s" SS_DELAY(5000));
+                SEND_STRING("u" SS_DELAY(2000));
+                SEND_STRING("b");
 
-            // Release SysReq
-            SEND_STRING(SS_UP(X_PSCR) SS_UP(X_LALT) );
-        }
-        return false;
-        break;
-    case MY_PW:
-        if (record->event.pressed) {
-            SEND_STRING("S" SS_DELAY(50) "E" SS_DELAY(50) "C" SS_DELAY(50) "R" SS_DELAY(50) "E" SS_DELAY(50) "T" SS_DELAY(50) "P" SS_DELAY(50) "W");
-        }
-        return false;
-        break;
+                // Release SysReq
+                SEND_STRING(SS_UP(X_PSCR) SS_UP(X_LALT));
+            }
+            return false;
+            break;
+        case MY_PW:
+            if (record->event.pressed) {
+                SEND_STRING("S" SS_DELAY(50) "E" SS_DELAY(50) "C" SS_DELAY(50) "R" SS_DELAY(50) "E" SS_DELAY(50) "T" SS_DELAY(50) "P" SS_DELAY(50) "W");
+            }
+            return false;
+            break;
     }
     return true;
 }
