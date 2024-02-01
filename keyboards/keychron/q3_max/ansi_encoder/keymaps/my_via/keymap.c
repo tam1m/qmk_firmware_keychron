@@ -116,18 +116,19 @@ void matrix_scan_user(void) {}
 void matrix_init_user(void) {}
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    __uint8_t current_hsv_v = rgb_matrix_get_val();
-    // __uint8_t current_hsv_h = rgb_matrix_get_hue();
-    HSV hsvcolor = {HSV_OFF};
-    RGB rgbcolor = {RGB_OFF};
-
     if (get_highest_layer(layer_state) > 0) {
-        uint8_t layer = get_highest_layer(layer_state);
+        uint8_t   layer         = get_highest_layer(layer_state);
+        __uint8_t current_hsv_v = rgb_matrix_get_val();
+
+        HSV hsvcolor = {HSV_OFF};
+        RGB rgbcolor = {RGB_OFF};
+
+        uint8_t index   = 0;
+        int     keycode = 0;
         for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
             for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-                uint8_t index = g_led_config.matrix_co[row][col];
-
-                int keycode = keymap_key_to_keycode(layer, (keypos_t){col, row});
+                index   = g_led_config.matrix_co[row][col];
+                keycode = keymap_key_to_keycode(layer, (keypos_t){col, row});
 
                 if (index >= led_min && index < led_max && index != NO_LED) {
                     if (keycode > KC_TRNS) {
@@ -136,7 +137,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                             case 2:
                             case 1:
                             default:
-                                break;
                         }
 
                         // same for all layers
@@ -152,7 +152,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                                 break;
                             default:
                                 hsvcolor = rgb_matrix_config.hsv;
-                                break;
                         }
 
                         // set color
@@ -166,7 +165,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                             case 1:    // fall through - default backlight off
                             default:
                                 rgb_matrix_set_color(index, RGB_OFF);
-                                break;
                         }
                     }
                 }
