@@ -24,10 +24,7 @@ enum layers {
     FOUR,
 };
 
-enum my_keycodes {
-   MY_SYSRQ = SAFE_RANGE,
-   MY_PW
-};
+enum my_keycodes { MY_SYSRQ = QK_USER_0, MY_PW };
 
 #define XXXXXXX KC_NO
 
