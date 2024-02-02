@@ -125,6 +125,7 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
         uint8_t index   = 0;
         int     keycode = 0;
+
         for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
             for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
                 index   = g_led_config.matrix_co[row][col];
@@ -132,14 +133,14 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
                 if (index >= led_min && index < led_max && index != NO_LED) {
                     if (keycode > KC_TRNS) {
-                        // layers
+                        // layers specific
                         switch (get_highest_layer(layer_state | default_layer_state)) {
                             case 2:
                             case 1:
                             default:
                         }
 
-                        // same for all layers
+                        // all layers
                         switch (keycode) {
                             case NK_TOGG:
                                 hsvcolor = (HSV){HSV_YELLOW};
