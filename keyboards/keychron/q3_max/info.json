@@ -40,13 +40,14 @@
         "driver": "snled27351_spi",
         "sleep": true,
         "animations": {
+            "solid_color": true,
+            "typing_heatmap": true,
             "solid_reactive_simple": true,
             "solid_reactive_multicross": true,
-            "solid_reactive_multinexus": true,
             "solid_reactive_multiwide": true,
-            "solid_multisplash": true,
+            "solid_reactive_multinexus": true,
             "splash": true,
-            "typing_heatmap": true
+            "solid_splash": true
         }
     },
     "eeprom": {
