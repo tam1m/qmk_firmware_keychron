@@ -25,11 +25,11 @@ enum layers {
 };
 
 // clang-format off
-enum my_keycodes {
+enum custom_keycodes {
     // via only support QK_KB_ with custom labels. So use QK_KB_ instead of QK_USER_
-    // keychron uses QK_KB_0 to QK_KB_15 for its predefined keys. See keychron_common.h
-    // so we start using the next free one QK_KB_16
-    MY_SYSRQ = QK_KB_16,
+    // keychron uses QK_KB_0 to QK_KB_NN for its predefined keys.
+    // so we start using the next free one NEW_SAFE_RANGE. See keychron_common.h
+    MY_SYSRQ = NEW_SAFE_RANGE,
     MY_PW
 };
 // clang-format on
