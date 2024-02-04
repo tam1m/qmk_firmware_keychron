@@ -85,6 +85,24 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 };
 #endif // ENCODER_MAP_ENABLE
 
+// clang-format off
+uint8_t new_led_flags[] = {
+
+        // // RGB LED Index to Flag
+        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,    4, 4, 4,
+        4, 8, 8, 8, 8, 4, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4,
+        1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4,
+        1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,    1,
+        1,    4, 4, 4, 4, 4, 4, 4, 4, 4, 4,    1,    4,
+        1, 1, 1,          4,          1, 1, 1, 1, 4, 4, 4,
+};
+// clang-format on
+
+void keyboard_post_init_user(void) {
+    // set led flags
+    memcpy(g_led_config.flags, new_led_flags, sizeof(new_led_flags));
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_record_keychron_common(keycode, record)) {
         return false;
