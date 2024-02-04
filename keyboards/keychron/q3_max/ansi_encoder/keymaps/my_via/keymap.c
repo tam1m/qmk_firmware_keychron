@@ -123,62 +123,148 @@ void matrix_scan_user(void) {}
 
 void matrix_init_user(void) {}
 
+void setColor(uint8_t index, HSV hsvcolor) {
+    RGB rgbcolor = {RGB_OFF};
+    // hsvcolor.v   = rgb_matrix_get_val();
+    // Set color
+    rgbcolor = hsv_to_rgb(hsvcolor);
+    rgb_matrix_set_color(index, rgbcolor.r, rgbcolor.g, rgbcolor.b);
+}
+
+// Function to handle RGB matrix indicators for layer 0
+void handleLayerZeroIndicators(uint8_t index, int keycode) {
+    HSV hsvcolor = rgb_matrix_config.hsv;
+
+    switch (keycode) {
+        case GU_TOGG:
+        case KC_LGUI:
+        case KC_RGUI:
+            if (keymap_config.no_gui) {
+                hsvcolor   = (HSV){HSV_RED};
+                hsvcolor.v = rgb_matrix_get_val();
+                // setColor(index, hsvcolor);
+
+            } else {
+                // hsvcolor = rgb_matrix_config.hsv;
+            }
+            break;
+        default:
+    }
+
+    if (rgb_matrix_config.hsv.h != hsvcolor.h || rgb_matrix_config.hsv.s != hsvcolor.s || rgb_matrix_config.hsv.v != hsvcolor.v) {
+        setColor(index, hsvcolor);
+    }
+}
+
+// Function to handle RGB matrix indicators for layers > 0
+void handleHigherLayerIndicators(uint8_t index, int keycode) {
+    HSV hsvcolor = {HSV_OFF};
+
+    if (keycode > KC_TRNS) {
+        hsvcolor = rgb_matrix_config.hsv;
+
+        // layers specific
+        switch (get_highest_layer(layer_state | default_layer_state)) {
+            case 2:
+                // hsvcolor = (HSV){HSV_MAGENTA};
+                break;
+            case 1:
+                // hsvcolor = (HSV){HSV_TEAL};
+                hsvcolor.h = (RGB_MATRIX_HUE_STEP * 4);
+                break;
+            default:
+                // Handle layer-specific cases if needed
+                break;
+        }
+
+        // all layers > 1
+        // switch (keycode) {
+        //     case NK_TOGG:
+        //         if (keymap_config.nkro)
+        //             hsvcolor = (HSV){HSV_YELLOW};
+        //         else {
+        //             hsvcolor = (HSV){HSV_RED};
+        //         }
+        //         break;
+        //     case BAT_LVL:
+        //         hsvcolor = (HSV){HSV_GREEN};
+        //         break;
+        //     case MY_SYSRQ:
+        //         hsvcolor = (HSV){HSV_RED};
+        //         break;
+        //     case GU_TOGG:
+        //     case KC_LGUI:
+        //     case KC_RGUI:
+        //         if (keymap_config.no_gui) {
+        //             hsvcolor = (HSV){HSV_RED};
+        //         }
+        //         break;
+        //     default:
+        // }
+
+        int shiftAmount = 0;
+        int mod         = 256;
+        switch (keycode) {
+            case NK_TOGG:
+                shiftAmount = 128;
+                if (!keymap_config.nkro) mod = 48;
+                break;
+            case BAT_LVL:
+                shiftAmount = 192;
+                break;
+            case MY_SYSRQ:
+                shiftAmount = 128;
+                mod         = 48;
+                break;
+            case GU_TOGG:
+            case KC_LGUI:
+            case KC_RGUI:
+                if (keymap_config.no_gui) {
+                    shiftAmount = 128;
+                    mod         = 48;
+                }
+                break;
+            default:
+        }
+
+        hsvcolor.h = (hsvcolor.h + shiftAmount) % mod;
+
+        // Set color using the new function
+        hsvcolor.v = rgb_matrix_get_val();
+        setColor(index, hsvcolor);
+    } else { // keycode > KC_TRNS
+        if (rgb_matrix_get_val() > 0) {
+            // if (rgb_matrix_config.mode) {
+            hsvcolor   = rgb_matrix_config.hsv;
+            hsvcolor.v = (hsvcolor.v >> 3);
+            setColor(index, hsvcolor);
+        }
+    }
+}
+
+// Main function to handle RGB matrix indicators for all layers
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    if (get_highest_layer(layer_state) > 0) {
-        uint8_t   layer         = get_highest_layer(layer_state);
-        __uint8_t current_hsv_v = rgb_matrix_get_val();
+    uint8_t layer   = get_highest_layer(layer_state);
+    uint8_t index   = 0;
+    int     keycode = 0;
 
-        HSV hsvcolor = {HSV_OFF};
-        RGB rgbcolor = {RGB_OFF};
+    for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+        for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+            index = g_led_config.matrix_co[row][col];
 
-        uint8_t index   = 0;
-        int     keycode = 0;
-
-        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
-            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-                index   = g_led_config.matrix_co[row][col];
+            if (index >= led_min && index < led_max && index != NO_LED) {
                 keycode = keymap_key_to_keycode(layer, (keypos_t){col, row});
 
-                if (index >= led_min && index < led_max && index != NO_LED) {
-                    if (keycode > KC_TRNS) {
-                        // layers specific
-                        switch (get_highest_layer(layer_state | default_layer_state)) {
-                            case 2:
-                            case 1:
-                            default:
-                        }
-
-                        // all layers
-                        switch (keycode) {
-                            case NK_TOGG:
-                                hsvcolor = (HSV){HSV_YELLOW};
-                                break;
-                            case BAT_LVL:
-                                hsvcolor = (HSV){HSV_GREEN};
-                                break;
-                            case MY_SYSRQ:
-                                hsvcolor = (HSV){HSV_RED};
-                                break;
-                            default:
-                                hsvcolor = rgb_matrix_config.hsv;
-                        }
-
-                        // set color
-                        hsvcolor.v = current_hsv_v;
-                        rgbcolor   = hsv_to_rgb(hsvcolor);
-                        rgb_matrix_set_color(index, rgbcolor.r, rgbcolor.g, rgbcolor.b);
-                    } else { // if (keycode > KC_TRNS) {
-                        switch (get_highest_layer(layer_state | default_layer_state)) {
-                            case 2:
-                                break; // don't change matrix for layer 2
-                            case 1:    // fall through - default backlight off
-                            default:
-                                rgb_matrix_set_color(index, RGB_OFF);
-                        }
-                    }
+                if (layer > 0) {
+                    // layers specific
+                    handleHigherLayerIndicators(index, keycode);
+                } else {
+                    // layer zero
+                    handleLayerZeroIndicators(index, keycode);
                 }
             }
         }
     }
+
     return false;
 }
