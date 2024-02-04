@@ -3,7 +3,6 @@ KEY_LOCK_ENABLE = yes
 MOUSEKEY_ENABLE = yes
 LTO_ENABLE = yes
 
-
 # debug
 # NKRO_ENABLE = no
 # MOUSEKEY_ENABLE = no
