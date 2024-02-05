@@ -26,11 +26,15 @@ enum layers {
 
 // clang-format off
 enum custom_keycodes {
-    // via only support QK_KB_ with custom labels. So use QK_KB_ instead of QK_USER_
-    // keychron uses QK_KB_0 to QK_KB_NN for its predefined keys.
-    // so we start using the next free one NEW_SAFE_RANGE. See keychron_common.h
+    // VIA only support QK_KB_NN with custom labels. So use QK_KB_NN instead of QK_USER_NN
+    // keychron uses QK_KB_0 to NEW_SAFE_RANGE for its predefined keys.
+    // so we start at NEW_SAFE_RANGE. See keychron_common.h
     MY_SYSRQ = NEW_SAFE_RANGE,
-    MY_PW
+    MY_PW,
+    MC_PAREN,
+    MC_CURLY,
+    MC_BRACK,
+    MC_QUOTE
 };
 // clang-format on
 
@@ -44,16 +48,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,       KC_BSLS,    KC_DEL,   KC_END,   KC_PGDN,
         MO(1),    KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,                 KC_ENT,
         KC_LSFT,            KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,                 KC_RSFT,              KC_UP,
-        KC_LCTL,  KC_LGUI,  KC_LALT,                                KC_SPC,                                 KC_RALT,  KC_RWIN,  LT(1,KC_APP),  KC_RCTL,    KC_LEFT,  KC_DOWN,  KC_RGHT),
+        KC_LCTL,  KC_LGUI,  KC_LALT,                                KC_SPC,                                 KC_RALT,  KC_RGUI,  LT(1,KC_APP),  KC_RCTL,    KC_LEFT,  KC_DOWN,  KC_RGHT
+    ),
 
 
     [TWO] = LAYOUT_tkl_ansi(
         _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    _______,    KC_P7,    KC_P8,    KC_P9,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_PMNS,  KC_PPLS,    _______,    KC_P4,    KC_P5,    KC_P6,
-        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P7,    KC_P8,    KC_P9,    XXXXXXX,  XXXXXXX,    KC_PSLS,    KC_P1,    KC_P2,    KC_P3,
-        KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,  KC_P4,    KC_P5,    KC_P6,    XXXXXXX,              KC_PAST,
-        _______,            _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BAT_LVL,  XXXXXXX,  XXXXXXX,  KC_P1,    KC_P2,    KC_P3,                MO(2),                _______,
-        _______,  KC_LGUI,  _______,                                _______,                                KC_P0,    KC_PDOT,  XXXXXXX,    KC_RCTL,    KC_P0,    KC_PDOT,  KC_PENT),
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_P7,    KC_P8,    KC_P9,    KC_PMNS,  KC_PPLS,    _______,    KC_P4,    KC_P5,    KC_P6,
+        XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    KC_PSLS,  KC_PAST,    XXXXXXX,    KC_P1,    KC_P2,    KC_P3,
+        KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,              _______,
+        _______,            _______,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BAT_LVL,  XXXXXXX,  XXXXXXX,  KC_P0,    KC_PDOT,  XXXXXXX,              MO(2),                MC_QUOTE,
+        _______,  _______,  _______,                                _______,                                _______,  _______,  XXXXXXX,    KC_RCTL,    MC_PAREN, MC_CURLY, MC_BRACK
+    ),
 
 
     [THREE] = LAYOUT_tkl_ansi(
@@ -62,7 +68,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
         _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,              QK_LOCK,
         _______,            _______,  _______,  _______,  _______,  BAT_LVL,  NK_TOGG,  _______,  _______,  _______,  MY_PW,                _______,              _______,
-        _______,  GU_TOGG,  _______,                                _______,                                _______,  GU_TOGG,  XXXXXXX,    _______,    _______,  _______,  _______),
+        _______,  GU_TOGG,  _______,                                _______,                                _______,  GU_TOGG,  XXXXXXX,    _______,    _______,  _______,  _______
+    ),
 
 
     [FOUR] = LAYOUT_tkl_ansi(
@@ -71,7 +78,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,              _______,
         _______,            _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,              _______,              _______,
-        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,    _______,  _______,  _______),
+        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,    _______,    _______,  _______,  _______
+    ),
 
 };
 
@@ -130,6 +138,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MY_PW:
             if (record->event.pressed) {
                 SEND_STRING("S" SS_DELAY(50) "E" SS_DELAY(50) "C" SS_DELAY(50) "R" SS_DELAY(50) "E" SS_DELAY(50) "T" SS_DELAY(50) "P" SS_DELAY(50) "W");
+        case MC_PAREN:
+            if (record->event.pressed) {
+                SEND_STRING("()" SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case MC_BRACK:
+            if (record->event.pressed) {
+                SEND_STRING("[]" SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case MC_CURLY:
+            if (record->event.pressed) {
+                SEND_STRING("{}" SS_TAP(X_LEFT));
+            }
+            return false;
+            break;
+        case MC_QUOTE:
+            if (record->event.pressed) {
+                SEND_STRING("\"\"" SS_TAP(X_LEFT));
             }
             return false;
             break;
