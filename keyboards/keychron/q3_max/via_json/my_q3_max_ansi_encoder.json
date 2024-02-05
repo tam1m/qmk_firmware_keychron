@@ -33,7 +33,7 @@
                 ]
               },
               {
-                "showIf": "{id_qmk_rgb_matrix_effect} > 1",
+                "showIf": "{id_qmk_rgb_matrix_effect} > 0",
                 "label": "Effect Speed",
                 "type": "range",
                 "options": [0, 255],
