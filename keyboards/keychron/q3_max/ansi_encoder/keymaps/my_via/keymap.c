@@ -192,6 +192,35 @@ void setColor(uint8_t index, HSV hsvcolor) {
     rgb_matrix_set_color(index, rgbcolor.r, rgbcolor.g, rgbcolor.b);
 }
 
+bool set_layer_modifiers(uint8_t index) {
+    // if (get_highest_layer(layer_state) > 0) {
+    HSV color = rgb_matrix_config.hsv;
+
+    if (g_led_config.flags[index] & LED_FLAG_MODIFIER) {
+        switch (get_highest_layer(layer_state | default_layer_state)) {
+            case 1:
+                color.h += (color.h + 128);
+                break;
+            case 2:
+                color.h += (color.h + 192);
+                break;
+            case 3:
+                color.h += (color.h + 255);
+                break;
+            default:
+                // color.h += (color.h + 64);
+                return false;
+                break;
+        }
+        color.v = rgb_matrix_get_val();
+        setColor(index, color);
+
+        return true;
+    }
+    // }
+    return false;
+}
+
 // Function to handle RGB matrix indicators for layer 0
 void handleLayerZeroIndicators(uint8_t index, int keycode) {
     HSV hsvcolor = rgb_matrix_config.hsv;
@@ -201,18 +230,18 @@ void handleLayerZeroIndicators(uint8_t index, int keycode) {
         case KC_LGUI:
         case KC_RGUI:
             if (keymap_config.no_gui) {
-                hsvcolor   = (HSV){HSV_RED};
-                hsvcolor.v = rgb_matrix_get_val();
-                // setColor(index, hsvcolor);
-
+                hsvcolor = (HSV){HSV_RED};
             } else {
-                // hsvcolor = rgb_matrix_config.hsv;
+                hsvcolor = (HSV){HSV_OFF};
             }
             break;
         default:
     }
 
     if (rgb_matrix_config.hsv.h != hsvcolor.h || rgb_matrix_config.hsv.s != hsvcolor.s || rgb_matrix_config.hsv.v != hsvcolor.v) {
+        if (hsvcolor.v > 0) {
+            hsvcolor.v = rgb_matrix_get_val();
+        }
         setColor(index, hsvcolor);
     }
 }
@@ -221,7 +250,8 @@ void handleLayerZeroIndicators(uint8_t index, int keycode) {
 void handleHigherLayerIndicators(uint8_t index, int keycode) {
     HSV hsvcolor = {HSV_OFF};
 
-    if (keycode > KC_TRNS) {
+    if (keycode > KC_TRNS && (g_led_config.flags[index] & LED_FLAG_KEYLIGHT)) {
+        // if (keycode > KC_TRNS) {
         hsvcolor = rgb_matrix_config.hsv;
 
         // layers specific
@@ -231,7 +261,7 @@ void handleHigherLayerIndicators(uint8_t index, int keycode) {
                 break;
             case 1:
                 // hsvcolor = (HSV){HSV_TEAL};
-                hsvcolor.h = (RGB_MATRIX_HUE_STEP * 4);
+                hsvcolor.h += (hsvcolor.h + 64);
                 break;
             default:
                 // Handle layer-specific cases if needed
@@ -281,8 +311,9 @@ void handleHigherLayerIndicators(uint8_t index, int keycode) {
             case KC_LGUI:
             case KC_RGUI:
                 if (keymap_config.no_gui) {
-                    shiftAmount = 128;
-                    mod         = 48;
+                    hsvcolor = (HSV){HSV_RED};
+                } else {
+                    hsvcolor = (HSV){HSV_OFF};
                 }
                 break;
             default:
@@ -291,13 +322,16 @@ void handleHigherLayerIndicators(uint8_t index, int keycode) {
         hsvcolor.h = (hsvcolor.h + shiftAmount) % mod;
 
         // Set color using the new function
-        hsvcolor.v = rgb_matrix_get_val();
+        if (hsvcolor.v > 0) {
+            hsvcolor.v = rgb_matrix_get_val();
+        }
         setColor(index, hsvcolor);
-    } else { // keycode > KC_TRNS
+    } else if ((g_led_config.flags[index] & LED_FLAG_KEYLIGHT)) { // keycode > KC_TRNS
         if (rgb_matrix_get_val() > 0) {
             // if (rgb_matrix_config.mode) {
-            hsvcolor   = rgb_matrix_config.hsv;
-            hsvcolor.v = (hsvcolor.v >> 3);
+            hsvcolor = rgb_matrix_config.hsv;
+            // hsvcolor.v = (hsvcolor.v >> 3);
+            hsvcolor.v = 0;
             setColor(index, hsvcolor);
         }
     }
@@ -315,13 +349,14 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 
             if (index >= led_min && index < led_max && index != NO_LED) {
                 keycode = keymap_key_to_keycode(layer, (keypos_t){col, row});
-
-                if (layer > 0) {
-                    // layers specific
-                    handleHigherLayerIndicators(index, keycode);
-                } else {
-                    // layer zero
-                    handleLayerZeroIndicators(index, keycode);
+                if (!set_layer_modifiers(index)) {
+                    if (layer == 0) {
+                        // Handle indicators for layer zero
+                        handleLayerZeroIndicators(index, keycode);
+                    } else {
+                        // Handle indicators for layers greater than zero
+                        handleHigherLayerIndicators(index, keycode);
+                    }
                 }
             }
         }
