@@ -154,6 +154,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case MY_PW:
             if (record->event.pressed) {
                 SEND_STRING("S" SS_DELAY(50) "E" SS_DELAY(50) "C" SS_DELAY(50) "R" SS_DELAY(50) "E" SS_DELAY(50) "T" SS_DELAY(50) "P" SS_DELAY(50) "W");
+            }
+            return false;
+            break;
         case MC_PAREN:
             if (record->event.pressed) {
                 SEND_STRING("()" SS_TAP(X_LEFT));
