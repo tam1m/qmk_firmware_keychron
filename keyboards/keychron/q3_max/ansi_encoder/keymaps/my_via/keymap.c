@@ -139,12 +139,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_PSCR));
 
                 // Type reisub
-                SEND_STRING("r" SS_DELAY(500));
-                SEND_STRING("e" SS_DELAY(2000));
-                SEND_STRING("i" SS_DELAY(500));
-                SEND_STRING("s" SS_DELAY(5000));
-                SEND_STRING("u" SS_DELAY(2000));
-                SEND_STRING("b");
+                SEND_STRING("r" SS_DELAY(500) "e" SS_DELAY(2000) "i" SS_DELAY(500) "s" SS_DELAY(5000) "u" SS_DELAY(2000) "b");
 
                 // Release SysReq
                 SEND_STRING(SS_UP(X_PSCR) SS_UP(X_LALT));
