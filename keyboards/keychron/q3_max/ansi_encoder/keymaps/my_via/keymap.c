@@ -213,16 +213,16 @@ bool set_layer_modifiers(uint8_t index) {
     if (g_led_config.flags[index] & LED_FLAG_MODIFIER) {
         switch (get_highest_layer(layer_state | default_layer_state)) {
             case 1:
-                color.h += (color.h + 128);
+                color.h += 128;
                 break;
             case 2:
-                color.h += (color.h + 192);
+                color.h += 192;
                 break;
             case 3:
-                color.h += (color.h + 255);
+                color.h += 255;
                 break;
             default:
-                // color.h += (color.h + 64);
+                // color.h += 192;
                 return false;
                 break;
         }
@@ -245,8 +245,6 @@ void handleLayerZeroIndicators(uint8_t index, int keycode) {
         case KC_RGUI:
             if (keymap_config.no_gui) {
                 hsvcolor = (HSV){HSV_RED};
-            } else {
-                hsvcolor = (HSV){HSV_OFF};
             }
             break;
         default:
@@ -275,7 +273,7 @@ void handleHigherLayerIndicators(uint8_t index, int keycode) {
                 break;
             case 1:
                 // hsvcolor = (HSV){HSV_TEAL};
-                hsvcolor.h += (hsvcolor.h + 64);
+                hsvcolor.h += 64;
                 break;
             default:
                 // Handle layer-specific cases if needed
@@ -283,43 +281,19 @@ void handleHigherLayerIndicators(uint8_t index, int keycode) {
         }
 
         // all layers > 1
-        // switch (keycode) {
-        //     case NK_TOGG:
-        //         if (keymap_config.nkro)
-        //             hsvcolor = (HSV){HSV_YELLOW};
-        //         else {
-        //             hsvcolor = (HSV){HSV_RED};
-        //         }
-        //         break;
-        //     case BAT_LVL:
-        //         hsvcolor = (HSV){HSV_GREEN};
-        //         break;
-        //     case MY_SYSRQ:
-        //         hsvcolor = (HSV){HSV_RED};
-        //         break;
-        //     case GU_TOGG:
-        //     case KC_LGUI:
-        //     case KC_RGUI:
-        //         if (keymap_config.no_gui) {
-        //             hsvcolor = (HSV){HSV_RED};
-        //         }
-        //         break;
-        //     default:
-        // }
-
-        int shiftAmount = 0;
-        int mod         = 256;
         switch (keycode) {
             case NK_TOGG:
-                shiftAmount = 128;
-                if (!keymap_config.nkro) mod = 48;
+                if (keymap_config.nkro)
+                    hsvcolor = (HSV){HSV_GREEN};
+                else {
+                    hsvcolor = (HSV){HSV_RED};
+                }
                 break;
             case BAT_LVL:
-                shiftAmount = 192;
+                hsvcolor = (HSV){HSV_GREEN};
                 break;
             case MY_SYSRQ:
-                shiftAmount = 128;
-                mod         = 48;
+                hsvcolor = (HSV){HSV_RED};
                 break;
             case GU_TOGG:
             case KC_LGUI:
@@ -327,13 +301,12 @@ void handleHigherLayerIndicators(uint8_t index, int keycode) {
                 if (keymap_config.no_gui) {
                     hsvcolor = (HSV){HSV_RED};
                 } else {
-                    hsvcolor = (HSV){HSV_OFF};
+                    hsvcolor = rgb_matrix_config.hsv;
                 }
                 break;
             default:
         }
-
-        hsvcolor.h = (hsvcolor.h + shiftAmount) % mod;
+        hsvcolor.s = rgb_matrix_get_sat();
 
         // Set color using the new function
         if (hsvcolor.v > 0) {
