@@ -197,10 +197,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void matrix_scan_user(void) {}
-
-void matrix_init_user(void) {}
-
 void setColor(uint8_t index, HSV hsvcolor) {
     RGB rgbcolor = {RGB_OFF};
     // hsvcolor.v   = rgb_matrix_get_val();
