@@ -12,21 +12,21 @@
 
 #if (defined(LED_MATRIX_ENABLE) || defined(RGB_MATRIX_ENABLE)) && defined(BAT_LEVEL_LED_LIST)
 
-#ifndef BAT_LEVEL_GROWING_INTERVAL
-#    define BAT_LEVEL_GROWING_INTERVAL 150
-#endif
+#    ifndef BAT_LEVEL_GROWING_INTERVAL
+#        define BAT_LEVEL_GROWING_INTERVAL 150
+#    endif
 
-#ifndef BAT_LEVEL_ON_INTERVAL
-#    define BAT_LEVEL_ON_INTERVAL 3000
-#endif
+#    ifndef BAT_LEVEL_ON_INTERVAL
+#        define BAT_LEVEL_ON_INTERVAL 3000
+#    endif
 
-#ifdef LED_MATRIX_ENABLE
-#    define LED_DRIVER_IS_ENABLED led_matrix_is_enabled
-#endif
+#    ifdef LED_MATRIX_ENABLE
+#        define LED_DRIVER_IS_ENABLED led_matrix_is_enabled
+#    endif
 
-#ifdef RGB_MATRIX_ENABLE
-#    define LED_DRIVER_IS_ENABLED rgb_matrix_is_enabled
-#endif
+#    ifdef RGB_MATRIX_ENABLE
+#        define LED_DRIVER_IS_ENABLED rgb_matrix_is_enabled
+#    endif
 
 enum {
     BAT_LVL_ANI_NONE,
@@ -35,14 +35,36 @@ enum {
     BAT_LVL_ANI_BLINK_ON,
 };
 
-static uint8_t  animation_state = 0;
+static uint8_t  animation_state          = 0;
 static uint32_t bat_lvl_ani_timer_buffer = 0;
 static uint8_t  bat_percentage;
 static uint8_t  cur_percentage;
 static uint32_t time_interval;
-#ifdef RGB_MATRIX_ENABLE
+#    ifdef RGB_MATRIX_ENABLE
 static uint8_t r, g, b;
-#endif
+// #    endif
+// Define your color array
+HSV batteryColors[] = {
+    {0, 255, 255}, // Red
+    {0, 255, 255}, // Red
+    // {9, 255, 255},  // Orange-Red
+    // {17, 255, 255}, // Orange
+    {26, 255, 255}, // Yellow-Orange
+    {26, 255, 255}, // Yellow-Orange
+    // {34, 255, 255}, // Yellow
+    // {43, 255, 255}, // Yellow-Green
+    // {43, 255, 255}, // Yellow-Green
+    {51, 255, 255}, // Green-Yellow
+    {51, 255, 255}, // Green-Yellow
+    // {60, 255, 255}, // Green
+    // {60, 255, 255}, // Green
+    {68, 255, 255}, // Dark Green
+    {68, 255, 255}, // Dark Green
+    {85, 255, 255}, // Deep Green
+    {85, 255, 255}, // Deep Green
+    {0, 0, 255}     // white
+};
+#    endif
 
 extern indicator_config_t indicator_config;
 extern backlight_state_t  original_backlight_state;
@@ -56,9 +78,9 @@ void bat_level_animiation_start(uint8_t percentage) {
     bat_lvl_ani_timer_buffer = timer_read32();
     cur_percentage           = 0;
     time_interval            = BAT_LEVEL_GROWING_INTERVAL;
-#ifdef RGB_MATRIX_ENABLE
+#    ifdef RGB_MATRIX_ENABLE
     r = g = b = 255;
-#endif
+#    endif
 }
 
 void bat_level_animiation_stop(void) {
@@ -70,8 +92,8 @@ bool bat_level_animiation_actived(void) {
 }
 
 void bat_level_animiation_indicate(void) {
-#ifdef LED_MATRIX_ENABLE
-    uint8_t  bat_lvl_led_list[10] = BAT_LEVEL_LED_LIST;
+#    ifdef LED_MATRIX_ENABLE
+    uint8_t bat_lvl_led_list[10] = BAT_LEVEL_LED_LIST;
 
     for (uint8_t i = 0; i <= LED_MATRIX_LED_COUNT; i++) {
         led_matrix_set_value(i, 0);
@@ -80,10 +102,10 @@ void bat_level_animiation_indicate(void) {
     if (animation_state == BAT_LVL_ANI_GROWING || animation_state == BAT_LVL_ANI_BLINK_ON)
         for (uint8_t i = 0; i < cur_percentage / 10; i++)
             led_matrix_set_value(bat_lvl_led_list[i], 255);
-#endif
+#    endif
 
-#ifdef RGB_MATRIX_ENABLE
-    uint8_t  bat_lvl_led_list[10] = BAT_LEVEL_LED_LIST;
+#    ifdef RGB_MATRIX_ENABLE
+    uint8_t bat_lvl_led_list[10] = BAT_LEVEL_LED_LIST;
 
     for (uint8_t i = 0; i <= RGB_MATRIX_LED_COUNT; i++) {
         rgb_matrix_set_color(i, 0, 0, 0);
@@ -91,10 +113,19 @@ void bat_level_animiation_indicate(void) {
 
     if (animation_state == BAT_LVL_ANI_GROWING || animation_state == BAT_LVL_ANI_BLINK_ON) {
         for (uint8_t i = 0; i < cur_percentage / 10; i++) {
+            if (animation_state == BAT_LVL_ANI_GROWING) {
+                RGB rgb_color;
+                rgb_color = hsv_to_rgb(batteryColors[i]);
+
+                r = rgb_color.r;
+                g = rgb_color.g;
+                b = rgb_color.b;
+            }
+            // Set led colors
             rgb_matrix_set_color(bat_lvl_led_list[i], r, g, b);
         }
     }
-#endif
+#    endif
 }
 
 void bat_level_animiation_update(void) {
@@ -109,15 +140,15 @@ void bat_level_animiation_update(void) {
             break;
 
         case BAT_LVL_ANI_BLINK_OFF:
-#ifdef RGB_MATRIX_ENABLE
-            if (bat_percentage < 30) {
-                r = 255;
-                b = g = 0;
+#    ifdef RGB_MATRIX_ENABLE
+            if (bat_percentage < 20) {
+                // r = 255;
+                // b = g = 0;
             } else {
-                r = b = 0;
-                g     = 255;
+                // r = b = 0;
+                // g     = 255;
             }
-#endif
+#    endif
             time_interval   = BAT_LEVEL_ON_INTERVAL;
             animation_state = BAT_LVL_ANI_BLINK_ON;
             break;
