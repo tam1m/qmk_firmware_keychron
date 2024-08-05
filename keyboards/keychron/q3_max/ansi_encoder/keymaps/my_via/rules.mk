@@ -2,6 +2,7 @@ VIA_ENABLE = yes
 KEY_LOCK_ENABLE = yes
 MOUSEKEY_ENABLE = yes
 LTO_ENABLE = yes
+RGB_MATRIX_CUSTOM_KB = yes
 
 # debug
 # NKRO_ENABLE = no

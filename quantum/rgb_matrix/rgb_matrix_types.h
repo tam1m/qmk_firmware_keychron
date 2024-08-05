@@ -37,6 +37,9 @@ typedef struct PACKED {
     uint8_t  y[LED_HITS_TO_REMEMBER];
     uint8_t  index[LED_HITS_TO_REMEMBER];
     uint16_t tick[LED_HITS_TO_REMEMBER];
+#    ifdef RGB_MATRIX_KEYREACTIVE_RND_STROKE
+    uint8_t rnd[LED_HITS_TO_REMEMBER];
+#    endif // RGB_MATRIX_KEYREACTIVE_RND_STROKE
 } last_hit_t;
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
 

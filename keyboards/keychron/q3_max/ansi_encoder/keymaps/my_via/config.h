@@ -7,5 +7,10 @@
 #define RGB_MATRIX_DEFAULT_ON true
 // #define FORCE_NKRO
 
+// https://quantum5.ca/2024/06/30/custom-mechanical-keyboard-os-specific-rgb-lighting-qmk/
+#define RGB_MATRIX_KEYREACTIVE_RND_STROKE
+
 #define TAPPING_TERM 100
+
+
 

@@ -200,6 +200,9 @@ void rgb_matrix_handle_key_event(uint8_t row, uint8_t col, bool pressed) {
         memcpy(&last_hit_buffer.y[0], &last_hit_buffer.y[led_count], LED_HITS_TO_REMEMBER - led_count);
         memcpy(&last_hit_buffer.tick[0], &last_hit_buffer.tick[led_count], (LED_HITS_TO_REMEMBER - led_count) * 2); // 16 bit
         memcpy(&last_hit_buffer.index[0], &last_hit_buffer.index[led_count], LED_HITS_TO_REMEMBER - led_count);
+#    ifdef RGB_MATRIX_KEYREACTIVE_RND_STROKE
+        memcpy(&last_hit_buffer.rnd[0], &last_hit_buffer.rnd[led_count], LED_HITS_TO_REMEMBER - led_count);
+#    endif // RGB_MATRIX_KEYREACTIVE_RND_STROKE
         last_hit_buffer.count = LED_HITS_TO_REMEMBER - led_count;
     }
 
@@ -209,6 +212,9 @@ void rgb_matrix_handle_key_event(uint8_t row, uint8_t col, bool pressed) {
         last_hit_buffer.y[index]     = g_led_config.point[led[i]].y;
         last_hit_buffer.index[index] = led[i];
         last_hit_buffer.tick[index]  = 0;
+#    ifdef RGB_MATRIX_KEYREACTIVE_RND_STROKE
+        last_hit_buffer.rnd[index] = random8();
+#    endif // RGB_MATRIX_KEYREACTIVE_RND_STROKE
         last_hit_buffer.count++;
     }
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
