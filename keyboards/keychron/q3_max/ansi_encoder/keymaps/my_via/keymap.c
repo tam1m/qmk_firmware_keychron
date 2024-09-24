@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
         _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,              QK_LOCK,
         _______,            _______,  _______,  _______,  _______,  BAT_LVL,  NK_TOGG,  _______,  _______,  _______,  MY_PW,                _______,              _______,
-        _______,  GU_TOGG,  _______,                                _______,                                _______,  GU_TOGG,  XXXXXXX,    _______,    _______,  _______,  _______
+        _______,  GU_TOGG,  _______,                                _______,                                _______,  GU_TOGG,  XXXXXXX,    MO(3)  ,    _______,  _______,  _______
     ),
 
 
@@ -91,7 +91,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [ONE]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [TWO]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
     [THREE] = {ENCODER_CCW_CW(RGB_HUD, RGB_HUI)},
-    [FOUR]  = {ENCODER_CCW_CW(_______, _______)},
+    [FOUR]  = {ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
 };
 #endif // ENCODER_MAP_ENABLE
 
