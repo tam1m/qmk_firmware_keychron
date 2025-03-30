@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         XXXXXXX,  KC_BTN4,  KC_BTN5,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    KC_PSLS,  KC_PAST,    XXXXXXX,    KC_P1,    KC_P2,    KC_P3,
         KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,              _______,
         _______,            XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  BAT_LVL,  XXXXXXX,  XXXXXXX,  KC_P0,    KC_PDOT,  XXXXXXX,              MO(2),                MC_QUOTE,
-        _______,  _______,  _______,                                _______,                                _______,  _______,  XXXXXXX,    KC_RCTL,    MC_PAREN, MC_CURLY, MC_BRACK
+        _______,  _______,  _______,                                _______,                                _______,  MO(3),    XXXXXXX,    KC_RCTL,    MC_PAREN, MC_CURLY, MC_BRACK
     ),
 
     /*
@@ -149,7 +149,9 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [ONE]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
     [TWO]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
     [THREE] = {ENCODER_CCW_CW(RGB_HUD, RGB_HUI)},
-    [FOUR]  = {ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
+    // [FOUR]  = {ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
+    [FOUR]  = {ENCODER_CCW_CW(KC_BRID, KC_BRIU)},
+
 };
 #endif // ENCODER_MAP_ENABLE
 
