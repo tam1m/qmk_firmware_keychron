@@ -95,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     /*
      * ,-----------------------------------------------------------------------------------------.
-     * |SysRq|BrDn|BrUp|Task|File|RGB- |RGB+ |Prev|Play|Next|Mute|Vol-|Vol+|RGBTg|     |     |Boot|
+     * |SysRq|F22|F23|Task|File|RGB- |RGB+ |Prev|Play|Next|Mute|Vol-|Vol+|RGBTg|     |     |Boot|
      * |-----------------------------------------------------------------------------------------|
      * |     |BT1 |BT2 |BT3 |P2P4|     |     |     |     |     |     |     |     |     |     |     |
      * |-----------------------------------------------------------------------------------------|
@@ -109,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------------------------------------'
      */
     [THREE] = LAYOUT_tkl_ansi(
-        MY_SYSRQ,  KC_F13,  KC_F14,   KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    RGB_TOG,    _______,  _______,  QK_BOOT,
+        _______,  KC_F22,   KC_F23,   KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    RGB_TOG,    _______,  _______,  QK_BOOT,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  P2P4G,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
         RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
         _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,              QK_LOCK,
