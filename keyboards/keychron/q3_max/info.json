@@ -73,8 +73,7 @@
             "solid_reactive_multicross": true,
             "solid_reactive_multiwide": true,
             "solid_reactive_multinexus": true,
-            "splash": true,
-            "solid_splash": true,
+            "riverflow": true,
             "splash_on_backlight": true
         }
     },
