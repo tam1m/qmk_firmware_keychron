@@ -51,11 +51,11 @@
                                     3
                                 ],
                                 [
-                                    "Reactive Multiwide",
+                                    "Reactive Multcross",
                                     4
                                 ],
                                 [
-                                    "Reactive Multcross",
+                                    "Reactive Multiwide",
                                     5
                                 ],
                                 [
@@ -63,16 +63,12 @@
                                     6
                                 ],
                                 [
-                                    "Splash",
+                                    "Riverflow",
                                     7
                                 ],
                                 [
-                                    "Solid Splash",
-                                    8
-                                ],
-                                [
                                     "splash_on_backlight",
-                                    9
+                                    8
                                 ]
                             ]
                         },
