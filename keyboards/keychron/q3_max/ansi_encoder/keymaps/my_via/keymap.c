@@ -29,6 +29,7 @@ enum custom_keycodes {
     // VIA only support QK_KB_NN with custom labels. So use QK_KB_NN instead of QK_USER_NN
     // keychron uses QK_KB_0 to NEW_SAFE_RANGE for its predefined keys.
     // so we start at NEW_SAFE_RANGE. See keychron_common.h
+    // VIA json file uses same order
     MY_SYSRQ = NEW_SAFE_RANGE,
     MY_PW,
     MC_PAREN,
