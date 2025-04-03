@@ -191,6 +191,26 @@
             "name": "Password",
             "title": "Type Password",
             "shortName": "MY_PW"
+        },
+        {
+            "name": "( )",
+            "title": "( )",
+            "shortName": "MC_PAREN"
+        },
+        {
+            "name": "{ }",
+            "title": "{ }",
+            "shortName": "MC_CURLY"
+        },
+        {
+            "name": "[ ]",
+            "title": "[ ]",
+            "shortName": "MC_BRACK"
+        },
+        {
+            "name": "\" \"",
+            "title": "\" \"",
+            "shortName": "MC_QUOTE"
         }
     ],
     "matrix": {
