@@ -112,8 +112,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [THREE] = LAYOUT_tkl_ansi(
         _______,  KC_F22,   KC_F23,   KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    RGB_TOG,    _______,  _______,  QK_BOOT,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  P2P4G,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
-        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
-        _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,              QK_LOCK,
+        RGB_TOG,  RGB_MOD,  RGB_VAI,  RM_HUEU,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
+        _______,  RGB_RMOD, RGB_VAD,  RM_HUED,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,              QK_LOCK,
         _______,            _______,  _______,  _______,  _______,  BAT_LVL,  NK_TOGG,  _______,  _______,  _______,  MY_PW,                _______,              _______,
         _______,  GU_TOGG,  _______,                                _______,                                _______,  GU_TOGG,  XXXXXXX,    MO(3),      _______,  _______,  _______
     ),
