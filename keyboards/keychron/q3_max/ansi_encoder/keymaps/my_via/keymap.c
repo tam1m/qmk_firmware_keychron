@@ -274,8 +274,6 @@ bool set_layer_modifiers(uint8_t index) {
                 color.h += 192;
                 break;
             case 3:
-                color.h += 255;
-                break;
             default:
                 // color.h += 192;
                 return false;
@@ -325,6 +323,7 @@ void handleHigherLayerIndicators(uint8_t index, int keycode) {
         switch (get_highest_layer(layer_state | default_layer_state)) {
             case 2:
                 // hsvcolor = (HSV){HSV_MAGENTA};
+                hsvcolor.h += 64;
                 break;
             case 1:
                 // hsvcolor = (HSV){HSV_TEAL};
