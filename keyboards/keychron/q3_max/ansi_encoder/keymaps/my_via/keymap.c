@@ -62,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------------------------------------'
      */
     [ONE] = LAYOUT_tkl_ansi(
-        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,        KC_MUTE,    KC_PSCR,  KC_CTANA, RGB_MOD,
+        KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,        KC_MUTE,    KC_PSCR,  KC_CTANA, UG_NEXT,
         KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,        KC_BSPC,    KC_INS,   KC_HOME,  KC_PGUP,
         KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,  KC_RBRC,       KC_BSLS,    KC_DEL,   KC_END,   KC_PGDN,
         MO(1),    KC_A,     KC_S,     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,                 KC_ENT,
@@ -86,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------------------------------------'
      */
     [TWO] = LAYOUT_tkl_ansi(
-        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    _______,    KC_P7,    KC_P8,    KC_P9,
+        _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FILE,  UG_VALD,  UG_VALU,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    _______,    KC_P7,    KC_P8,    KC_P9,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  KC_P7,    KC_P8,    KC_P9,    KC_PMNS,  KC_PPLS,    _______,    KC_P4,    KC_P5,    KC_P6,
         XXXXXXX,  KC_BTN4,  KC_BTN5,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_P4,    KC_P5,    KC_P6,    KC_PSLS,  KC_PAST,    XXXXXXX,    KC_P1,    KC_P2,    KC_P3,
         KC_CAPS,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  _______,  KC_P1,    KC_P2,    KC_P3,    XXXXXXX,              _______,
@@ -110,10 +110,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------------------------------------'
      */
     [THREE] = LAYOUT_tkl_ansi(
-        _______,  KC_F22,   KC_F23,   KC_TASK,  KC_FILE,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    RGB_TOG,    _______,  _______,  QK_BOOT,
+        _______,  KC_F22,   KC_F23,   KC_TASK,  KC_FILE,  UG_VALD,  UG_VALU,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,    UG_TOGG,    _______,  _______,  QK_BOOT,
         _______,  BT_HST1,  BT_HST2,  BT_HST3,  P2P4G,    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
-        RGB_TOG,  RGB_MOD,  RGB_VAI,  RM_HUEU,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
-        _______,  RGB_RMOD, RGB_VAD,  RM_HUED,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,              QK_LOCK,
+        UG_TOGG,  UG_NEXT,  UG_VALU,  RM_HUEU,  UG_SATU,  UG_SPDU,  _______,  _______,  _______,  _______,  _______,  _______,  _______,    _______,    _______,  _______,  _______,
+        _______,  UG_PREV, UG_VALD,  RM_HUED,  UG_SATD,  UG_SPDD,  _______,  _______,  _______,  _______,  _______,  _______,              QK_LOCK,
         _______,            _______,  _______,  _______,  _______,  BAT_LVL,  NK_TOGG,  _______,  _______,  _______,  MY_PW,                _______,              _______,
         _______,  GU_TOGG,  _______,                                _______,                                _______,  GU_TOGG,  XXXXXXX,    MO(3),      _______,  _______,  _______
     ),
@@ -148,9 +148,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #if defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
     [ONE]   = {ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [TWO]   = {ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
-    [THREE] = {ENCODER_CCW_CW(RGB_HUD, RGB_HUI)},
-    // [FOUR]  = {ENCODER_CCW_CW(RGB_SAD, RGB_SAI)},
+    [TWO]   = {ENCODER_CCW_CW(UG_VALD, UG_VALU)},
+    [THREE] = {ENCODER_CCW_CW(UG_HUED, UG_HUEU)},
+    // [FOUR]  = {ENCODER_CCW_CW(UG_SATD, UG_SATU)},
     [FOUR]  = {ENCODER_CCW_CW(KC_BRID, KC_BRIU)},
 
 };
